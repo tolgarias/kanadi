@@ -88,19 +88,26 @@ scalacOptions ++= {
 
 libraryDependencies ++= {
   Seq(
-    "com.typesafe.akka"          %% "akka-http"           % akkaHttpVersion % Provided,
-    "com.typesafe.akka"          %% "akka-slf4j"          % akkaVersion     % Provided,
-    "com.typesafe.akka"          %% "akka-stream"         % akkaVersion     % Provided,
-    "org.mdedetrich"             %% "censored-raw-header" % "0.7.0",
-    "com.beachape"               %% "enumeratum-circe"    % enumeratumCirceVersion,
-    "io.circe"                   %% "circe-parser"        % circeVersion,
-    "org.mdedetrich"             %% "akka-stream-circe"   % akkaStreamsJsonVersion,
-    "org.mdedetrich"             %% "akka-http-circe"     % akkaStreamsJsonVersion,
-    "de.heikoseeberger"          %% "akka-http-circe"     % heikoseebergerAkkaHttpCirceVersion,
-    "com.iheart"                 %% "ficus"               % ficusVersion,
-    "com.typesafe.scala-logging" %% "scala-logging"       % scalaLoggingVersion,
-    "ch.qos.logback"              % "logback-classic"     % logbackVersion,
-    "org.specs2"                 %% "specs2-core"         % specs2Version   % Test
+//    "com.typesafe.akka" %% "akka-http"           % akkaHttpVersion % Provided,
+//    "com.typesafe.akka" %% "akka-slf4j"          % akkaVersion     % Provided,
+//    "com.typesafe.akka" %% "akka-stream"         % akkaVersion     % Provided,
+    // "org.mdedetrich"    %% "censored-raw-header" % "0.7.0",
+    "com.beachape" %% "enumeratum-circe" % enumeratumCirceVersion,
+    "io.circe"     %% "circe-parser"     % circeVersion,
+//    "org.mdedetrich"             %% "akka-stream-circe"   % akkaStreamsJsonVersion,
+//    "org.mdedetrich"             %% "akka-http-circe"     % akkaStreamsJsonVersion,
+    // "de.heikoseeberger"          %% "akka-http-circe"    % heikoseebergerAkkaHttpCirceVersion,
+    "com.iheart"                 %% "ficus"              % ficusVersion,
+    "com.typesafe.scala-logging" %% "scala-logging"      % scalaLoggingVersion,
+    "ch.qos.logback"              % "logback-classic"    % logbackVersion,
+    "org.specs2"                 %% "specs2-core"        % specs2Version % Test,
+    "org.apache.pekko"           %% "pekko-stream"       % "1.0.1",
+    "org.apache.pekko"           %% "pekko-http"         % "1.0.0",
+    "org.apache.pekko"           %% "pekko-slf4j"        % "1.0.1",
+    "org.mdedetrich"             %% "pekko-stream-json"  % "1.0.0",
+    "org.mdedetrich"             %% "pekko-http-json"    % "1.0.0",
+    "org.mdedetrich"             %% "pekko-stream-circe" % "1.0.0",
+    "org.mdedetrich"             %% "pekko-http-circe"   % "1.0.0"
   ) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, n)) if n == 13 =>
       Seq(

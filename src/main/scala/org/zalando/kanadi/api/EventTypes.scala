@@ -4,14 +4,13 @@ import java.net.URI
 import java.time.OffsetDateTime
 
 import defaults._
-import akka.http.scaladsl.HttpExt
-import akka.http.scaladsl.marshalling.Marshal
-import akka.http.scaladsl.model.headers.RawHeader
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.Materializer
+import org.apache.pekko.http.scaladsl.HttpExt
+import org.apache.pekko.http.scaladsl.marshalling.Marshal
+import org.apache.pekko.http.scaladsl.model.headers.RawHeader
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.stream.Materializer
 import com.typesafe.scalalogging.{Logger, LoggerTakingImplicit}
-import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import enumeratum._
 import io.circe._
 import io.circe.syntax._
@@ -20,6 +19,7 @@ import org.zalando.kanadi.api.defaults._
 import org.zalando.kanadi.models._
 
 import scala.concurrent.{ExecutionContext, Future}
+import org.mdedetrich.pekko.http.support.CirceHttpSupport._
 
 sealed abstract class Audience(val id: String) extends EnumEntry with Product with Serializable {
   override val entryName = id

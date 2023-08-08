@@ -1,9 +1,9 @@
 package org.zalando.kanadi
 
 import java.util.UUID
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.Http
 import com.typesafe.config.ConfigFactory
+import org.apache.pekko.actor.ActorSystem
 import org.specs2.Specification
 import org.specs2.concurrent.ExecutionEnv
 import org.specs2.specification.core.SpecStructure

@@ -1,10 +1,10 @@
 package org.zalando.kanadi
 
-import akka.http.scaladsl.coding._
-import akka.http.scaladsl.model.headers._
-import akka.http.scaladsl.model.{HttpEntity, HttpHeader, HttpRequest, HttpResponse}
-import akka.http.scaladsl.unmarshalling.{Unmarshal, Unmarshaller}
-import akka.stream.Materializer
+import org.apache.pekko.http.scaladsl.coding._
+import org.apache.pekko.http.scaladsl.model.headers._
+import org.apache.pekko.http.scaladsl.model.{HttpEntity, HttpHeader, HttpRequest, HttpResponse}
+import org.apache.pekko.http.scaladsl.unmarshalling.{Unmarshal, Unmarshaller}
+import org.apache.pekko.stream.Materializer
 import com.typesafe.scalalogging.CanLog
 import io.circe._
 import io.circe.parser._
@@ -41,9 +41,10 @@ package object api {
   }
 
   private[api] def toHeader(authToken: AuthToken)(implicit kanadiHttpConfig: HttpConfig): HttpHeader =
-    if (kanadiHttpConfig.censorAuthToken)
-      CensoredRawHeader("Authorization", s"Bearer ${authToken.value}", "Bearer <secret>")
-    else RawHeader("Authorization", s"Bearer ${authToken.value}")
+//    if (kanadiHttpConfig.censorAuthToken)
+//      CensoredRawHeader("Authorization", s"Bearer ${authToken.value}", "Bearer <secret>")
+//    else
+      RawHeader("Authorization", s"Bearer ${authToken.value}")
 
   private[api] def stripAuthToken(request: HttpRequest)(implicit kanadiHttpConfig: HttpConfig): HttpRequest = {
     val headers = request.headers.map {

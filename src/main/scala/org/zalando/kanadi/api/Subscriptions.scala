@@ -3,25 +3,24 @@ package org.zalando.kanadi.api
 import java.net.URI
 import java.time.OffsetDateTime
 import java.util.concurrent.ConcurrentHashMap
-import akka.NotUsed
 import defaults._
-import akka.http.scaladsl.HttpExt
-import akka.http.scaladsl.marshalling.Marshal
-import akka.http.scaladsl.model.Uri.Query
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{Connection, RawHeader}
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream._
-import akka.stream.scaladsl._
-import akka.util.ByteString
+import org.apache.pekko.http.scaladsl.HttpExt
+import org.apache.pekko.http.scaladsl.marshalling.Marshal
+import org.apache.pekko.http.scaladsl.model.Uri.Query
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.model.headers.{Connection, RawHeader}
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.stream._
+import org.apache.pekko.stream.scaladsl._
 import com.typesafe.scalalogging.{Logger, LoggerTakingImplicit}
-import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import enumeratum._
 import io.circe.{Decoder, Encoder, JsonObject}
 import io.circe.syntax._
+import org.apache.pekko.NotUsed
+import org.apache.pekko.util.ByteString
 import org.zalando.kanadi.api.defaults._
 import org.zalando.kanadi.models._
-import org.mdedetrich.akka.stream.support.CirceStreamSupport
+import org.mdedetrich.pekko.stream.support.CirceStreamSupport
 import org.zalando.kanadi.models
 
 import scala.collection.JavaConverters._
@@ -29,7 +28,7 @@ import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
-
+import org.mdedetrich.pekko.http.support.CirceHttpSupport._
 final case class SubscriptionAuthorization(admins: List[AuthorizationAttribute], readers: List[AuthorizationAttribute])
 
 object SubscriptionAuthorization {
@@ -904,7 +903,6 @@ case class Subscriptions(baseUri: URI, authTokenProvider: Option[AuthTokenProvid
       : Graph[FlowShape[ByteString, Either[Throwable, SubscriptionEvent[T]]], NotUsed] =
     GraphDSL.create() { implicit b =>
       import GraphDSL.Implicits._
-      import org.mdedetrich.akka.stream.support.CirceStreamSupport
 
       implicit def successDecoder[A](implicit decoder: Decoder[A]): Decoder[Success[A]] =
         Decoder.instance[Success[A]] { c =>
@@ -1463,7 +1461,7 @@ case class Subscriptions(baseUri: URI, authTokenProvider: Option[AuthTokenProvid
       executionContext: ExecutionContext,
       eventStreamSupervisionDecider: Subscriptions.EventStreamSupervisionDecider
   ): Future[StreamId] =
-    akka.pattern
+    org.apache.pekko.pattern
       .after(reconnectDelay, http.system.scheduler)(
         eventsStreamedManaged[T](
           subscriptionId,
@@ -1592,7 +1590,7 @@ case class Subscriptions(baseUri: URI, authTokenProvider: Option[AuthTokenProvid
     }.recoverWith { case _: Subscriptions.Errors.NoEmptySlotsOrCursorReset =>
       logger.info(s"No empty slots/cursor reset, reconnecting in ${kanadiHttpConfig.noEmptySlotsCursorResetRetryDelay
         .toString()}, SubscriptionId: ${subscriptionId.id.toString}")
-      akka.pattern.after(kanadiHttpConfig.noEmptySlotsCursorResetRetryDelay, http.system.scheduler)(
+      org.apache.pekko.pattern.after(kanadiHttpConfig.noEmptySlotsCursorResetRetryDelay, http.system.scheduler)(
         eventsStreamedSourceManaged[T](
           subscriptionId,
           connectionClosedCallback,

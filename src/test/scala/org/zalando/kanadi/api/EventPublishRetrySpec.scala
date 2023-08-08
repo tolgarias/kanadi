@@ -3,12 +3,11 @@ package org.zalando.kanadi.api
 import java.net.{ServerSocket, URI}
 import java.util.UUID
 import defaults._
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Directives._
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.model.StatusCodes
+import org.apache.pekko.http.scaladsl.server.Directives._
 import com.typesafe.config.ConfigFactory
-import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import io.circe._
 import org.specs2.Specification
 import org.specs2.concurrent.ExecutionEnv
@@ -23,7 +22,7 @@ import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import net.ceedubs.ficus.readers.namemappers.implicits.hyphenCase
 import net.ceedubs.ficus.Ficus._
 import org.zalando.kanadi.api.Events.Errors
-
+import org.mdedetrich.pekko.http.support.CirceHttpSupport._
 class EventPublishRetrySpec(implicit ec: ExecutionEnv) extends Specification with FutureMatchers with Config {
 
   override lazy implicit val kanadiHttpConfig: HttpConfig =

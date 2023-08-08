@@ -2,18 +2,17 @@ package org.zalando.kanadi.api
 
 import java.net.URI
 
-import akka.http.scaladsl.HttpExt
-import akka.http.scaladsl.model.headers.RawHeader
-import akka.http.scaladsl.model.{ContentTypes, HttpMethods, HttpRequest, Uri}
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.Materializer
+import org.apache.pekko.http.scaladsl.HttpExt
+import org.apache.pekko.http.scaladsl.model.headers.RawHeader
+import org.apache.pekko.http.scaladsl.model.{ContentTypes, HttpMethods, HttpRequest, Uri}
+import org.apache.pekko.http.scaladsl.unmarshalling.Unmarshal
+import org.apache.pekko.stream.Materializer
 import com.typesafe.scalalogging.{Logger, LoggerTakingImplicit}
-import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import org.zalando.kanadi.models.HttpHeaders.XFlowID
 import org.zalando.kanadi.models._
 
 import scala.concurrent.{ExecutionContext, Future}
-
+import org.mdedetrich.pekko.http.support.CirceHttpSupport._
 case class Registry(baseUri: URI, authTokenProvider: Option[AuthTokenProvider] = None)(implicit
     kanadiHttpConfig: HttpConfig,
     http: HttpExt,
